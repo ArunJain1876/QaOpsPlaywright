@@ -52,10 +52,14 @@
       await page.locator("#myModal button").first().click({ timeout: 5000 }).catch(() => {});
       await page.locator("#myModal").waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {});
     }
-    await page.locator("#terms").check({ force: true });
-    await expect(page.locator("#terms")).toBeChecked();
-    await page.locator("#terms").uncheck({ force: true });
-    expect( await page.locator("#terms").isChecked()).toBeFalsy();
+    // Use accessible name / label — direct #terms.check() often fails when the label handles the toggle.
+    const termsCheckbox = page.getByRole("checkbox", {
+      name: /I Agree to the terms and conditions/i,
+    });
+    await termsCheckbox.check();
+    await expect(termsCheckbox).toBeChecked();
+    await termsCheckbox.uncheck();
+    await expect(termsCheckbox).not.toBeChecked();
     await expect(documentLink).toHaveAttribute("class","blinkingText");
  });
 
