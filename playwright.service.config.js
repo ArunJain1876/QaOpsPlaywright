@@ -11,6 +11,9 @@ module.exports = defineConfig(
     connectTimeout: 3 * 60 * 1000, // 3 minutes
     os: ServiceOS.LINUX,
     credential: new DefaultAzureCredential(),
+    use: {
+      ignoreHTTPSErrors: true,
+    },
   }),
   {
     // HTML reporter must come first; Azure reporter uploads the report to workspace storage (portal).
