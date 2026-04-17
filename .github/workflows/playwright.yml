@@ -8,6 +8,9 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      # Covers Node TLS for all steps (e.g. azure/login) if "unable to get local issuer certificate".
+      NODE_TLS_REJECT_UNAUTHORIZED: '0'
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-node@v5
